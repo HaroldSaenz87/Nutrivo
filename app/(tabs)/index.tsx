@@ -1,6 +1,7 @@
 import CalorieCard from "@/components/home-screen/CalorieCard";
 import { Colors } from "@/constants/theme";
 import { useColorScheme } from "@/hooks/use-color-scheme";
+import { mockCalorieData } from "@/lib/homeScreen/mockCalorie";
 import { View, StyleSheet } from "react-native";
 import { SafeAreaView } from 'react-native-safe-area-context';
 
@@ -12,7 +13,7 @@ export default function HomeScreen() {
   return (
     <SafeAreaView style={[styles.safeArea, { backgroundColor: theme.background }]}>
       <View style={styles.container}>
-        <CalorieCard />
+        <CalorieCard data={mockCalorieData}/>
       </View>
     </SafeAreaView>
   );

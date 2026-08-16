@@ -2,20 +2,44 @@ import { View, Text, StyleSheet } from 'react-native';
 import React from 'react';
 import { useColorScheme } from '@/hooks/use-color-scheme';
 import { Colors } from '@/constants/theme';
+import { CalorieData } from '@/lib/homeScreen/mockCalorie';
+import Ring from '../ui/Ring';
 
-export default function CalorieCard() {
+type Props = {
+  data: CalorieData;
+};
+
+export default function CalorieCard({ data }: Props) {
+
   const colorScheme = useColorScheme() ?? 'light';
   const theme = Colors[colorScheme];
 
+  const remaining = data.goal - data.consumed;
+
   return (
     <View style={[styles.card, { backgroundColor: theme.card, borderColor: theme.border }]}>
-      <Text style={[styles.label, { color: theme.textSecondary }]}>Calories today</Text>
 
-      <Text style={[styles.value, { color: theme.textPrimary }]}>
-        1,450 <Text style={[styles.sub, { color: theme.textSecondary }]}>/ 2,200 kcal</Text>
-      </Text>
+      <View style={styles.ring}>
+        <Ring
+          consumed={data.consumed}
+          goal={data.goal}
+          trackColor={theme.border}
+          progressColor={theme.tint}
+          textColor={theme.textPrimary}
+        />
 
-      <Text style={[styles.remaining, { color: theme.accentText }]}>750 kcal remaining</Text>
+      </View>
+
+      <View style={styles.textGroup}>
+        <Text style={[styles.label, { color: theme.textSecondary }]}>Calories today</Text>
+
+        <Text style={[styles.value, { color: theme.textPrimary }]}>
+          {data.consumed.toLocaleString()} <Text style={[styles.sub, { color: theme.textSecondary }]}>/ {data.goal.toLocaleString()}</Text>
+        </Text>
+
+        <Text style={[styles.remaining, { color: theme.accentText }]}>{remaining.toLocaleString()} calories remaining</Text>
+      </View>
+
     </View>
   );
 }
@@ -24,7 +48,17 @@ const styles = StyleSheet.create({
   card: {
     borderRadius: 14,
     padding: 16,
-    borderWidth: 1,
+    borderWidth: 2,
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 35,
+  },
+  ring:{
+    marginLeft: 10
+  },
+  textGroup: {
+    flex: 1,
+    minWidth: 0,
   },
   label: {
     fontSize: 13,
