@@ -72,7 +72,7 @@ const styles = StyleSheet.create({
   },
   label: {
     fontSize: 13,
-    marginBottom: 4,
+    marginBottom: 8,
   },
   legendRow: {
     flexDirection: 'row',

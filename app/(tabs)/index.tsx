@@ -1,9 +1,11 @@
 import CalorieCard from "@/components/home-screen/CalorieCard";
 import MacroCard from "@/components/home-screen/MacroCard";
+import WeightCard from "@/components/home-screen/WeightCard";
 import { Colors } from "@/constants/theme";
 import { useColorScheme } from "@/hooks/use-color-scheme";
 import { mockCalorieData } from "@/lib/homeScreen/mockCalorie";
 import { mockMacroData } from "@/lib/homeScreen/mockMacro";
+import { mockWeightData } from "@/lib/homeScreen/mockWeight";
 import { View, StyleSheet } from "react-native";
 import { SafeAreaView } from 'react-native-safe-area-context';
 
@@ -19,6 +21,8 @@ export default function HomeScreen() {
         <CalorieCard data={mockCalorieData}/>
 
         <MacroCard data={mockMacroData}/>
+
+        <WeightCard data={mockWeightData}/>
       </View>
     </SafeAreaView>
   );
