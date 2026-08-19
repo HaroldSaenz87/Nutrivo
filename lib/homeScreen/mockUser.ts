@@ -1,10 +1,12 @@
 
 export type UserData = {
   name: string;
+  email: string;
 };
 
 export const mockUserData: UserData = {
   name: 'Steven Torres',
+  email: 'obese@email.com',
 };
 
 // Turns "Steven Torres" into "ST" for the avatar bubble
