@@ -34,11 +34,11 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between',
-        paddingVertical: 8,
+        paddingVertical: 10,
         borderTopWidth: 1,
     },
     label: {
-        fontSize: 13,
+        fontSize: 15,
     },
     value: {
         fontSize: 13,

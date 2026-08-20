@@ -4,6 +4,7 @@ import { useColorScheme } from '@/hooks/use-color-scheme';
 import { Colors } from '@/constants/theme';
 import { CalorieData } from '@/lib/homeScreen/mockCalorie';
 import Ring from '../ui/Ring';
+import { useAppTheme } from '../ThemeContext';
 
 type Props = {
   data: CalorieData;
@@ -11,7 +12,7 @@ type Props = {
 
 export default function CalorieCard({ data }: Props) {
 
-  const colorScheme = useColorScheme() ?? 'light';
+  const { colorScheme } = useAppTheme();
   const theme = Colors[colorScheme];
 
   const remaining = data.goal - data.consumed;
@@ -61,7 +62,7 @@ const styles = StyleSheet.create({
     minWidth: 0,
   },
   label: {
-    fontSize: 13,
+    fontSize: 15,
     marginBottom: 4,
   },
   value: {

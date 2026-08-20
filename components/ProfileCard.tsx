@@ -4,6 +4,7 @@ import { Colors } from '@/constants/theme';
 import { useColorScheme } from '@/hooks/use-color-scheme.web';
 import AccountBubble from './ui/AccountBubble';
 import { getInitials, mockUserData, UserData } from '@/lib/homeScreen/mockUser';
+import { useAppTheme } from './ThemeContext';
 
 type Props = {
     user: UserData;
@@ -11,7 +12,7 @@ type Props = {
 
 export default function ProfileCard({ user }: Props) {
 
-    const colorScheme = useColorScheme() ?? 'light';
+    const { colorScheme } = useAppTheme();
     const theme = Colors[colorScheme];
 
     return (

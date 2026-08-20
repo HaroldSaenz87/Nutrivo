@@ -2,6 +2,7 @@ import CalorieCard from "@/components/home-screen/CalorieCard";
 import HomeHeader from "@/components/home-screen/HomeHeader";
 import MacroCard from "@/components/home-screen/MacroCard";
 import WeightCard from "@/components/home-screen/WeightCard";
+import { useAppTheme } from "@/components/ThemeContext";
 import { Colors } from "@/constants/theme";
 import { useColorScheme } from "@/hooks/use-color-scheme";
 import { mockCalorieData } from "@/lib/homeScreen/mockCalorie";
@@ -13,7 +14,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function HomeScreen() {
 
-  const colorScheme = useColorScheme() ?? 'light';
+  const { colorScheme } = useAppTheme();
   const theme = Colors[colorScheme];
 
   return (

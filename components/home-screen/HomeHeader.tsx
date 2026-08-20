@@ -5,6 +5,7 @@ import { useColorScheme } from '@/hooks/use-color-scheme';
 import { Colors } from '@/constants/theme';
 import { UserData, getInitials } from '@/lib/homeScreen/mockUser';
 import AccountBubble from '../ui/AccountBubble';
+import { useAppTheme } from '../ThemeContext';
 
 type Props = {
   user: UserData;
@@ -12,7 +13,7 @@ type Props = {
 
 export default function HomeHeader({ user }: Props) {
 
-  const colorScheme = useColorScheme() ?? 'light';
+  const { colorScheme } = useAppTheme();
   const theme = Colors[colorScheme];
 
   const firstName = user.name.split(' ')[0];

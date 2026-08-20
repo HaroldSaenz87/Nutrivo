@@ -6,6 +6,7 @@ import { useColorScheme } from '@/hooks/use-color-scheme';
 import { Colors } from '@/constants/theme';
 import { Goals } from '@/lib/accountScreen/mockGoals';
 import DetailRow from '../ui/DetailRow';
+import { useAppTheme } from '../ThemeContext';
 
 type Props = {
 
@@ -14,7 +15,7 @@ type Props = {
 
 export default function GoalsCard({ goals }: Props) {
 
-    const colorScheme = useColorScheme() ?? 'light';
+    const { colorScheme } = useAppTheme();
     const theme = Colors[colorScheme];
 
     const rows = [
@@ -50,8 +51,8 @@ const styles = StyleSheet.create({
         borderWidth: 1.5,
     },
     title: {
-        fontSize: 13,
-        marginBottom: 4,
+        fontSize: 18,
+        marginBottom: 8,
     },
     
 });

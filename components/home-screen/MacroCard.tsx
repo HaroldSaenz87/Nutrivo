@@ -5,13 +5,15 @@ import { useColorScheme } from '@/hooks/use-color-scheme';
 import { Colors, MacroColors } from '@/constants/theme';
 import PieChart from '../ui/Piechart';
 import { MacroData } from '@/lib/homeScreen/mockMacro';
+import { useAppTheme } from '../ThemeContext';
 
 type Props = {
   data: MacroData;
 };
 
 export default function MacroCard({ data }: Props) {
-  const colorScheme = useColorScheme() ?? 'light';
+
+  const { colorScheme } = useAppTheme();
   const theme = Colors[colorScheme];
 
   const carbsColor = MacroColors.carbs[colorScheme];
@@ -71,7 +73,7 @@ const styles = StyleSheet.create({
     minWidth: 0,
   },
   label: {
-    fontSize: 13,
+    fontSize: 15,
     marginBottom: 8,
   },
   legendRow: {

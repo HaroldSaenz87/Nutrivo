@@ -5,13 +5,15 @@ import { useColorScheme } from '@/hooks/use-color-scheme';
 import { Colors } from '@/constants/theme';
 import { WeightData } from '@/lib/homeScreen/mockWeight';
 import LineChart from '../ui/LineChart';
+import { useAppTheme } from '../ThemeContext';
 
 type Props = {
   data: WeightData;
 };
 
 export default function WeightCard({ data }: Props) {
-  const colorScheme = useColorScheme() ?? 'light';
+
+  const { colorScheme } = useAppTheme();
   const theme = Colors[colorScheme];
 
   const current = data.entries[data.entries.length - 1].weight;
@@ -41,7 +43,7 @@ const styles = StyleSheet.create({
     borderWidth: 2,
   },
   label: {
-    fontSize: 13,
+    fontSize: 15,
     marginBottom: 15,
   },
   change: {
