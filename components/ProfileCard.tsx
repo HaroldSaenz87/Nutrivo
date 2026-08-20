@@ -35,7 +35,7 @@ export default function ProfileCard({ user }: Props) {
 
             <Pressable style={[styles.editButton, { borderColor: theme.textSecondary, backgroundColor: theme.card }]}>
             
-                <Text style={[styles.editButtonText, { color: theme.textPrimary}]}>Edit</Text>
+                <Text style={[styles.editButtonText, { color: theme.textPrimary}]}>Edit Profile</Text>
 
             </Pressable>
 
