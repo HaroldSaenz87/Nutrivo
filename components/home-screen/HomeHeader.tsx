@@ -1,34 +1,37 @@
 // components/home-screen/HomeHeader.tsx
 import { View, Text, StyleSheet } from 'react-native';
 import React from 'react';
-import { useColorScheme } from '@/hooks/use-color-scheme';
 import { Colors } from '@/constants/theme';
 import { UserData, getInitials } from '@/lib/homeScreen/mockUser';
 import AccountBubble from '../ui/AccountBubble';
 import { useAppTheme } from '../ThemeContext';
 
 type Props = {
+  title: string;
+  date?: Date;
+  subtitle?: string;
   user: UserData;
 };
 
-export default function HomeHeader({ user }: Props) {
+export default function HomeHeader({ title, date, subtitle, user }: Props) {
 
   const { colorScheme } = useAppTheme();
   const theme = Colors[colorScheme];
 
-  const firstName = user.name.split(' ')[0];
 
-  const today = new Date().toLocaleDateString(undefined, {
+  const displayDate = (date ?? new Date()).toLocaleDateString(undefined, {
     weekday: 'long',
     month: 'long',
     day: 'numeric',
   });
 
+  const subtitleText = subtitle ?? displayDate;
+
   return (
     <View style={styles.row}>
       <View>
-        <Text style={[styles.greeting, { color: theme.textPrimary }]}>Hi, {firstName}</Text>
-        <Text style={[styles.date, { color: theme.textSecondary }]}>{today}</Text>
+        <Text style={[styles.greeting, { color: theme.textPrimary }]}>{title}</Text>
+        <Text style={[styles.date, { color: theme.textSecondary }]}>{subtitleText}</Text>
       </View>
 
       <AccountBubble

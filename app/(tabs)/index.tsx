@@ -4,7 +4,6 @@ import MacroCard from "@/components/home-screen/MacroCard";
 import WeightCard from "@/components/home-screen/WeightCard";
 import { useAppTheme } from "@/components/ThemeContext";
 import { Colors } from "@/constants/theme";
-import { useColorScheme } from "@/hooks/use-color-scheme";
 import { mockCalorieData } from "@/lib/homeScreen/mockCalorie";
 import { mockMacroData } from "@/lib/homeScreen/mockMacro";
 import { mockUserData } from "@/lib/homeScreen/mockUser";
@@ -17,11 +16,13 @@ export default function HomeScreen() {
   const { colorScheme } = useAppTheme();
   const theme = Colors[colorScheme];
 
+  const firstName = mockUserData.name.split(' ')[0];
+
   return (
     <SafeAreaView style={[styles.safeArea, { backgroundColor: theme.background }]}>
       <View style={styles.container}>
 
-        <HomeHeader user={mockUserData} />
+        <HomeHeader title={`Hi, ${firstName}`} user={mockUserData} />
 
         <CalorieCard data={mockCalorieData}/>
 
