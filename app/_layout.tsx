@@ -4,6 +4,7 @@ import { StatusBar } from 'expo-status-bar';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import 'react-native-reanimated';
 import { ThemeProvider, useAppTheme } from '@/components/ThemeContext';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 
 export const unstable_settings = {
@@ -26,10 +27,12 @@ function RootLayoutContent() {
 
 export default function RootLayout() {
   return (
-    <SafeAreaProvider>
-      <ThemeProvider>
-        <RootLayoutContent />
-      </ThemeProvider>
-    </SafeAreaProvider>
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <SafeAreaProvider>
+        <ThemeProvider>
+          <RootLayoutContent />
+        </ThemeProvider>
+      </SafeAreaProvider>
+    </GestureHandlerRootView>
   );
 }
