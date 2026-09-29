@@ -8,42 +8,53 @@ import { mockCalorieData } from "@/lib/homeScreen/mockCalorie";
 import { mockMacroData } from "@/lib/homeScreen/mockMacro";
 import { mockUserData } from "@/lib/homeScreen/mockUser";
 import { mockWeightData } from "@/lib/homeScreen/mockWeight";
-import { View, StyleSheet } from "react-native";
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { View, ScrollView, StyleSheet } from "react-native";
+import { useSafeAreaInsets } from 'react-native-safe-area-context'; // 👈 Switched to hook
 
 export default function HomeScreen() {
-
   const { colorScheme } = useAppTheme();
   const theme = Colors[colorScheme];
+  const insets = useSafeAreaInsets(); // 👈 Access insets
 
   const firstName = mockUserData.name.split(' ')[0];
 
   return (
-    <SafeAreaView style={[styles.safeArea, { backgroundColor: theme.background }]}>
-      <View style={styles.container}>
-
+    <View style={[styles.mainWrapper, { backgroundColor: theme.background }]}>
+      <ScrollView
+        style={styles.scrollView}
+        contentContainerStyle={[
+          styles.container,
+          {
+            paddingTop: insets.top + 12,
+            paddingBottom: insets.bottom + 100, // Ensures WeightCard scrolls cleanly above FloatingTabBar
+          },
+        ]}
+        showsVerticalScrollIndicator={false}
+      >
         <HomeHeader title={`Hi, ${firstName}`} user={mockUserData} />
 
-        <CalorieCard data={mockCalorieData}/>
-
-        <MacroCard data={mockMacroData}/>
-
-        <WeightCard data={mockWeightData}/>
-
-      </View>
-    </SafeAreaView>
+        <View style={styles.cardGroup}>
+          <CalorieCard data={mockCalorieData} />
+          <MacroCard data={mockMacroData} />
+          <WeightCard data={mockWeightData} />
+        </View>
+      </ScrollView>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
-  safeArea: {
+  mainWrapper: {
     flex: 1,
-    
+  },
+  scrollView: {
+    flex: 1,
   },
   container: {
-    flex: 1,
-    padding: 20,
-    gap: 30,
+    paddingHorizontal: 20,
+  },
+  cardGroup: {
+    gap: 20,
     marginTop: 10,
   },
 });

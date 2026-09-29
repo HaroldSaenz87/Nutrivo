@@ -1,6 +1,6 @@
-import { ScrollView, View, StyleSheet } from 'react-native'
-import React, { useState } from 'react'
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { ScrollView, View, StyleSheet } from 'react-native';
+import React, { useState } from 'react';
+import { useSafeAreaInsets } from 'react-native-safe-area-context'; // 👈 Switched to hook
 import HomeHeader from '@/components/home-screen/HomeHeader';
 import { mockUserData } from '@/lib/homeScreen/mockUser';
 import { useAppTheme } from '@/components/ThemeContext';
@@ -15,9 +15,9 @@ function isSameDay(a: Date, b: Date) {
 }
 
 export default function DiaryScreen() {
-
   const { colorScheme } = useAppTheme();
   const theme = Colors[colorScheme];
+  const insets = useSafeAreaInsets(); // 👈 Access insets
 
   const [selectedDate, setSelectedDate] = useState(new Date());
 
@@ -51,13 +51,20 @@ export default function DiaryScreen() {
   const totalCalories = getTotalCalories(mockDiaryData.meals);
 
   return (
-    <SafeAreaView style={[styles.safeArea, { backgroundColor: theme.background }]}>
-
+    // 1. Full-height root View prevents lower edge clipping
+    <View style={[styles.mainWrapper, { backgroundColor: theme.background }]}>
       <ScrollView
-        style={[styles.scrollView, { backgroundColor: theme.background }]}
-        contentContainerStyle={styles.container}>
-
-        <HomeHeader title="Diary" subtitle="Where the snacks get confessed" user={mockUserData}/>
+        style={styles.scrollView}
+        contentContainerStyle={[
+          styles.container,
+          {
+            paddingTop: insets.top + 12,
+            paddingBottom: insets.bottom + 100, // Dynamic padding clear of FloatingTabBar
+          },
+        ]}
+        showsVerticalScrollIndicator={false}
+      >
+        <HomeHeader title="Diary" subtitle="Where the snacks get confessed" user={mockUserData} />
 
         <DateNavigator
           label={dateLabel}
@@ -79,24 +86,20 @@ export default function DiaryScreen() {
             <MealCard key={meal.key} meal={meal} onAddPress={handleAddPress} />
           ))}
         </View>
-
       </ScrollView>
-
-    </SafeAreaView>
+    </View>
   );
 }
 
-
 const styles = StyleSheet.create({
-  safeArea: {
+  mainWrapper: {
     flex: 1,
   },
   scrollView: {
     flex: 1,
   },
   container: {
-    padding: 20,
-    paddingBottom: 100,
+    paddingHorizontal: 20,
   },
   mealList: {
     gap: 12,
