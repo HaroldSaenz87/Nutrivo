@@ -32,10 +32,12 @@ function resampleToMonthly(entries: WeightEntry[]): WeightEntry[] {
 }
 
 // Turns raw weight entries into the shape react-native-gifted-charts expects.
+// Includes the item's index so pointerLabelComponent can determine position.
 function buildChartData(entries: WeightEntry[]) {
-  return entries.map((entry) => {
+  return entries.map((entry, index) => {
     const date = new Date(entry.date);
     return {
+      index,
       value: entry.weight,
       label: date.toLocaleDateString(undefined, { month: 'short' }),
       dateLabel: date.toLocaleDateString(undefined, { month: 'short', day: 'numeric' }),
@@ -117,11 +119,20 @@ export default function WeightCard({ data }: Props) {
               activatePointersInstantlyOnTouch: true,
               pointerLabelWidth: 80,
               pointerLabelHeight: 66,
-              autoAdjustPointerLabelPosition: true,
+              autoAdjustPointerLabelPosition: false,
               pointerLabelComponent: (items: any[]) => {
                 const item = items[0];
+                // First 2 points (index 0 and 1) shift to the right, remaining points shift left
+                const isEarlyPoint = item.index < 2;
+                const translateX = isEarlyPoint ? 10 : -85;
+
                 return (
-                  <View style={[styles.tooltip, { backgroundColor: theme.tint, marginBottom: 14  }]}>
+                  <View
+                    style={[
+                      styles.tooltip,
+                      { backgroundColor: theme.tint, marginBottom: 14 },
+                      { transform: [{ translateX }] },
+                    ]}>
                     <Text style={[styles.tooltipValue, { color: colorScheme === 'dark' ? theme.background : '#FFFFFF' }]}>
                       {item.value.toFixed(1)} {data.unit}
                     </Text>
@@ -152,10 +163,9 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   chartBox: {
-    
     minHeight: 150,
     alignItems: 'center',
-    overflow: 'hidden',
+    overflow: 'visible',
   },
   change: {
     fontSize: 16,
