@@ -18,7 +18,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
   const rawSystemScheme = useSystemColorScheme();
 
   const systemScheme: ResolvedTheme = rawSystemScheme === 'dark' ? 'dark' : 'light'
-  const [preference, setPreference] = useState<ThemePreference>('system');
+  const [preference, setPreference] = useState<ThemePreference>('dark');
 
   const colorScheme: ResolvedTheme = preference === 'system' ? systemScheme : preference;
 

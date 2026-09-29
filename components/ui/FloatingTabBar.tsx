@@ -36,7 +36,7 @@ export default function FloatingTabBar({ state, descriptors, navigation }: Botto
     <View
       style={[
         styles.wrapper,
-        { backgroundColor: theme.background, paddingBottom: Math.max(insets.bottom, 12) },
+        {paddingBottom: Math.max(insets.bottom, 12) },
       ]}>
 
       {/* THE PILL: only as wide as its icons. The wrapper's alignItems: 'center' centers it. */}
@@ -98,19 +98,24 @@ export default function FloatingTabBar({ state, descriptors, navigation }: Botto
 
 const styles = StyleSheet.create({
   wrapper: {
-    alignItems: 'center',   // centers the pill left-to-right
-    paddingTop: 8,          // small gap between the screen content and the pill
+    position: 'absolute',   // NEW — floats over the screen instead of taking up its own row
+    left: 0,
+    right: 0,
+    bottom: 0,
+    alignItems: 'center',
+    // no backgroundColor at all now — fully see-through
   },
   bar: {
-    flexDirection: 'row',        // lay icons out side by side (default is stacked)
-    alignItems: 'center',        // centers icons top-to-bottom inside the pill
+    // unchanged — the pill itself still has its own solid background,
+    // only the empty strip around it becomes transparent
+    flexDirection: 'row',
+    alignItems: 'center',
     justifyContent: 'center',
-    gap: 8,                      // space between icons; raise or lower to taste
+    gap: 8,
     height: 64,
-    paddingHorizontal: 10,       // padding inside the left/right ends of the pill
-    borderRadius: 32,            // half the height = fully rounded ends (pill shape)
+    paddingHorizontal: 10,
+    borderRadius: 32,
     borderWidth: 1.5,
-    // Shadow so it looks like it's hovering. iOS uses the shadow* props, Android uses elevation.
     shadowColor: '#000',
     shadowOpacity: 0.15,
     shadowRadius: 12,
