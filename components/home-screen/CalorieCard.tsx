@@ -24,9 +24,11 @@ export default function CalorieCard({ data }: Props) {
         <Ring
           consumed={data.consumed}
           goal={data.goal}
+          size={90}
           trackColor={theme.border}
           progressColor={theme.tint}
           textColor={theme.textPrimary}
+          innerBg={theme.card}     // NEW
         />
 
       </View>

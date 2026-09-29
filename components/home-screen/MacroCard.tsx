@@ -1,18 +1,15 @@
-// components/home-screen/MacroCard.tsx
 import { View, Text, StyleSheet } from 'react-native';
 import React from 'react';
-import { useColorScheme } from '@/hooks/use-color-scheme';
-import { Colors, MacroColors } from '@/constants/theme';
-import PieChart from '../ui/Piechart';
-import { MacroData } from '@/lib/homeScreen/mockMacro';
+import { PieChart } from 'react-native-gifted-charts';
 import { useAppTheme } from '../ThemeContext';
+import { Colors, MacroColors } from '@/constants/theme';
+import { MacroData } from '@/lib/homeScreen/mockMacro';
 
 type Props = {
   data: MacroData;
 };
 
 export default function MacroCard({ data }: Props) {
-
   const { colorScheme } = useAppTheme();
   const theme = Colors[colorScheme];
 
@@ -28,12 +25,17 @@ export default function MacroCard({ data }: Props) {
     { label: 'Fat', grams: data.fatGrams, color: fatColor },
   ];
 
+  const pieData = macros.map((m) => ({ value: m.grams, color: m.color }));
+
   return (
     <View style={[styles.card, { backgroundColor: theme.card, borderColor: theme.border }]}>
-
       <View style={styles.chart}>
         <PieChart
-          slices={macros.map((m) => ({ value: m.grams, color: m.color }))}
+          data={pieData}
+          donut
+          radius={45}
+          innerRadius={32}
+          innerCircleColor={theme.card}
         />
       </View>
 
@@ -51,7 +53,6 @@ export default function MacroCard({ data }: Props) {
           );
         })}
       </View>
-
     </View>
   );
 }
@@ -73,8 +74,8 @@ const styles = StyleSheet.create({
     minWidth: 0,
   },
   label: {
-    fontSize: 15,
-    marginBottom: 8,
+    fontSize: 14,
+    marginBottom: 4,
   },
   legendRow: {
     flexDirection: 'row',
