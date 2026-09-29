@@ -2,7 +2,7 @@ import { View, Text, StyleSheet, ScrollView } from 'react-native';
 import React from 'react';
 import { useAppTheme } from '@/components/ThemeContext';
 import { Colors } from '@/constants/theme';
-import { useSafeAreaInsets } from 'react-native-safe-area-context'; // 👈 Use insets hook
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { mockUserData } from '@/lib/homeScreen/mockUser';
 import ProfileCard from '@/components/ProfileCard';
 import UserDetailCard from '@/components/account-screen/UserDetailCard';
@@ -14,17 +14,20 @@ import PreferencesCard from '@/components/account-screen/PreferencesCard';
 export default function AccountScreen() {
   const { colorScheme } = useAppTheme();
   const theme = Colors[colorScheme];
-  const insets = useSafeAreaInsets(); 
+  const insets = useSafeAreaInsets();
+
   return (
-    // Standard View so the screen frame fills the entire window (no safe area clipping boundary)
     <View style={[styles.mainWrapper, { backgroundColor: theme.background }]}>
+      {/* Block the status bar region so scrolling items clip cleanly below it */}
+      <View style={{ height: insets.top, backgroundColor: theme.background, zIndex: 10 }} />
+
       <ScrollView
         style={styles.scrollView}
         contentContainerStyle={[
           styles.container,
           {
-            paddingTop: insets.top + 12, // Protect top status bar
-            paddingBottom: insets.bottom + 100, // Extra space to scroll past FloatingTabBar
+            paddingTop: 12, // Simple top padding inside the scroll canvas
+            paddingBottom: insets.bottom + 100,
           },
         ]}
         showsVerticalScrollIndicator={false}

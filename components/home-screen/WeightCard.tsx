@@ -9,6 +9,8 @@ type Props = {
   data: WeightData;
 };
 
+// Collapses weekly entries down to one entry per month, so the chart
+// shows a clean monthly trend instead of a cluttered weekly one.
 function resampleToMonthly(entries: WeightEntry[]): WeightEntry[] {
   const byMonth = new Map<string, WeightEntry>();
 
@@ -29,6 +31,7 @@ function resampleToMonthly(entries: WeightEntry[]): WeightEntry[] {
   return monthly;
 }
 
+// Turns raw weight entries into the shape react-native-gifted-charts expects.
 function buildChartData(entries: WeightEntry[]) {
   return entries.map((entry) => {
     const date = new Date(entry.date);
@@ -55,16 +58,16 @@ export default function WeightCard({ data }: Props) {
   const change = current - data.startWeight;
   const changeLabel = `${change > 0 ? '+' : ''}${change.toFixed(1)} ${data.unit} since start`;
 
-  // Manually work out spacing between points, instead of letting
-  // adjustToWidth do it — adjustToWidth silently ignores endSpacing,
-  // which was why the last label kept getting cut off.
+  // Spacing between points is calculated manually rather than using
+  // adjustToWidth, which silently ignores endSpacing and cuts off the
+  // last label.
   const initialSpacing = 16;
-  const endSpacing = 30; // room reserved on the right for the last label to sit inside
+  const endSpacing = 30;
 
   const yAxisLabelWidth = 28;
 
-  // The chart's actual drawn width is `width` + yAxisLabelWidth, so subtract
-  // yAxisLabelWidth here to keep the whole thing inside the card.
+  // The chart's drawn width is `width` + yAxisLabelWidth, so subtract
+  // that back out to keep the whole thing inside the card.
   const drawnWidth = chartWidth - yAxisLabelWidth;
 
   const pointCount = chartData.length;
@@ -75,34 +78,35 @@ export default function WeightCard({ data }: Props) {
     <View style={[styles.card, { backgroundColor: theme.card, borderColor: theme.border }]}>
       <Text style={[styles.label, { color: theme.textSecondary }]}>Weight progress</Text>
 
+      {/* Chart width comes from onLayout since gifted-charts needs an explicit width */}
       <View style={styles.chartBox} onLayout={(e) => setChartWidth(e.nativeEvent.layout.width)}>
         {chartWidth > 0 && (
           <LineChart
             data={chartData}
             width={drawnWidth}
-            height={120}
-            spacing={spacing}           // replaces adjustToWidth — this is the actual fix
+            height={150}
+            spacing={spacing}
             initialSpacing={initialSpacing}
             endSpacing={endSpacing}
             curved
-            thickness={2.5}
+            thickness={3}
             color={theme.tint}
-            //hideDataPoints
             dataPointsColor={theme.tint}
-            dataPointsRadius={3} 
+            dataPointsRadius={4}
             areaChart
             startFillColor={theme.tint}
             endFillColor={theme.tint}
             startOpacity={0.35}
             endOpacity={0}
-            yAxisLabelWidth={28}
+            yAxisLabelWidth={30}
             maxValue={Math.ceil(maxWeight) + 3}
             noOfSections={2}
             hideRules
             yAxisColor="transparent"
             xAxisColor={theme.border}
-            yAxisTextStyle={{ color: theme.textSecondary, fontSize: 10 }}
-            xAxisLabelTextStyle={{ color: theme.textSecondary, fontSize: 10 }}
+            yAxisTextStyle={{ color: theme.textSecondary, fontSize: 12 }}
+            xAxisLabelTextStyle={{ color: theme.textSecondary, fontSize: 12 }}
+            // Drag-to-scrub tooltip showing weight + date at the touched point
             pointerConfig={{
               pointerStripHeight: 100,
               pointerStripColor: theme.border,
@@ -140,33 +144,34 @@ export default function WeightCard({ data }: Props) {
 const styles = StyleSheet.create({
   card: {
     borderRadius: 14,
-    padding: 16,
+    padding: 20,
     borderWidth: 2,
   },
   label: {
-    fontSize: 14,
-    marginBottom: 8,
+    fontSize: 16,
+    marginBottom: 10,
   },
   chartBox: {
-    minHeight: 120,
+    
+    minHeight: 150,
     alignItems: 'center',
     overflow: 'hidden',
   },
   change: {
-    fontSize: 15,
-    marginTop: 4,
+    fontSize: 16,
+    marginTop: 6,
   },
   tooltip: {
     borderRadius: 8,
-    paddingVertical: 4,
-    paddingHorizontal: 6,
+    paddingVertical: 5,
+    paddingHorizontal: 8,
     alignItems: 'center',
   },
   tooltipValue: {
-    fontSize: 11,
+    fontSize: 13,
     fontWeight: '600',
   },
   tooltipDate: {
-    fontSize: 9,
+    fontSize: 11,
   },
 });

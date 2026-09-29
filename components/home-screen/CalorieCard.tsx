@@ -20,19 +20,22 @@ export default function CalorieCard({ data }: Props) {
   return (
     <View style={[styles.card, { backgroundColor: theme.card, borderColor: theme.border }]}>
 
+      {/* Ring showing calories consumed vs. goal */}
       <View style={styles.ring}>
         <Ring
           consumed={data.consumed}
           goal={data.goal}
-          size={90}
+          size={92}
+          strokeWidth={11}
           trackColor={theme.border}
           progressColor={theme.tint}
           textColor={theme.textPrimary}
-          innerBg={theme.card}     // NEW
+          innerBg={theme.card}
         />
 
       </View>
 
+      {/* Calorie totals and remaining count */}
       <View style={styles.textGroup}>
         <Text style={[styles.label, { color: theme.textSecondary }]}>Calories today</Text>
 
@@ -50,33 +53,33 @@ export default function CalorieCard({ data }: Props) {
 const styles = StyleSheet.create({
   card: {
     borderRadius: 14,
-    padding: 16,
+    padding: 20,
     borderWidth: 2,
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 35,
+    gap: 20,
   },
-  ring:{
-    marginLeft: 10
+  ring: {
+    marginLeft: 10,
   },
   textGroup: {
     flex: 1,
     minWidth: 0,
   },
   label: {
-    fontSize: 15,
-    marginBottom: 4,
+    fontSize: 16,
+    marginBottom: 6,
   },
   value: {
-    fontSize: 24,
+    fontSize: 26,
     fontWeight: '500',
   },
   sub: {
-    fontSize: 14,
+    fontSize: 16,
     fontWeight: '400',
   },
   remaining: {
-    fontSize: 13,
-    marginTop: 4,
+    fontSize: 16,
+    marginTop: 6,
   },
 });

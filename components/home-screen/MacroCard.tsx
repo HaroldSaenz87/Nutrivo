@@ -29,16 +29,18 @@ export default function MacroCard({ data }: Props) {
 
   return (
     <View style={[styles.card, { backgroundColor: theme.card, borderColor: theme.border }]}>
+      {/* Donut chart of carbs/protein/fat grams */}
       <View style={styles.chart}>
         <PieChart
           data={pieData}
           donut
-          radius={45}
-          innerRadius={32}
+          radius={54}
+          innerRadius={36}
           innerCircleColor={theme.card}
         />
       </View>
 
+      {/* Legend with per-macro percentage of total grams */}
       <View style={styles.textGroup}>
         <Text style={[styles.label, { color: theme.textSecondary }]}>Macros breakdown</Text>
 
@@ -60,11 +62,11 @@ export default function MacroCard({ data }: Props) {
 const styles = StyleSheet.create({
   card: {
     borderRadius: 14,
-    padding: 16,
+    padding: 20,
     borderWidth: 2,
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 35,
+    gap: 24,
   },
   chart: {
     marginLeft: 10,
@@ -74,26 +76,26 @@ const styles = StyleSheet.create({
     minWidth: 0,
   },
   label: {
-    fontSize: 14,
-    marginBottom: 4,
+    fontSize: 16,
+    marginBottom: 6,
   },
   legendRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 6,
-    marginTop: 6,
+    gap: 8,
+    marginTop: 8,
   },
   dot: {
-    width: 8,
-    height: 8,
-    borderRadius: 4,
+    width: 10,
+    height: 10,
+    borderRadius: 5,
   },
   legendLabel: {
-    fontSize: 12,
+    fontSize: 15,
     flex: 1,
   },
   legendPercent: {
-    fontSize: 12,
+    fontSize: 15,
     fontWeight: '500',
   },
 });

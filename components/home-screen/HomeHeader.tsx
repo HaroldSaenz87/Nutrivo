@@ -1,4 +1,3 @@
-// components/home-screen/HomeHeader.tsx
 import { View, Text, StyleSheet } from 'react-native';
 import React from 'react';
 import { Colors } from '@/constants/theme';
@@ -18,7 +17,7 @@ export default function HomeHeader({ title, date, subtitle, user }: Props) {
   const { colorScheme } = useAppTheme();
   const theme = Colors[colorScheme];
 
-
+  // Falls back to today's date, formatted, unless a subtitle overrides it.
   const displayDate = (date ?? new Date()).toLocaleDateString(undefined, {
     weekday: 'long',
     month: 'long',
@@ -34,6 +33,7 @@ export default function HomeHeader({ title, date, subtitle, user }: Props) {
         <Text style={[styles.date, { color: theme.textSecondary }]}>{subtitleText}</Text>
       </View>
 
+      {/* Avatar bubble in the top-right */}
       <AccountBubble
         initials={getInitials(user.name)}
         bgColor={theme.card}
@@ -49,7 +49,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    marginBottom: 16,
+    marginTop: 24,
+    marginBottom: 24,
   },
   greeting: {
     fontSize: 30,
